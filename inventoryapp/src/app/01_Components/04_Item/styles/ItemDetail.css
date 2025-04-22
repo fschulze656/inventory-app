@@ -1,0 +1,59 @@
+.detail-page {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px;
+    height: 91vh;
+}
+
+.detail-page .item-detail {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+}
+
+.detail-page .stock-graph {
+    width: 63%;
+    height: 100%;
+    min-height: 350px;
+}
+
+.bom-list {
+    height: 300px;
+    overflow-y: scroll;
+    border: 1px solid gray;
+}
+
+.bom-list .list-item {
+    height: 2em;
+    justify-content: space-between;
+}
+
+.bom-list .list-item .stock-detail {
+    display: flex;
+    width: 75px;
+    justify-content: space-between;
+}
+
+.qr-code-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: white;
+    color: black;
+}
+
+@media (max-width: 768px) {
+    .detail-page {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .detail-page .item-detail {
+        width: 100%;
+    }
+
+    .detail-page .stock-graph {
+        width: 100%;
+    }
+}

@@ -1,0 +1,85 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    gap: 10px;
+    margin: 15px;
+}
+
+.text-field-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.autocomplete-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.associated-projects {
+    width: 33%;
+    height: 75vh;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.bom-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 33%;
+    height: 75vh;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.category-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 33%;
+    height: 75vh;
+    border: 1px solid gray;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.save-button {
+    align-self: flex-start;
+    width: 5%;
+}
+
+@media (max-width: 768px) {
+    .text-field-container {
+        flex-direction: column;
+    }
+
+    .autocomplete-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .associated-projects {
+        width: 100%;
+        height: fit-content;
+    }
+
+    .bom-container {
+        width: 100%;
+        height: fit-content;
+    }
+
+    .category-container {
+        width: 100%;
+        height: fit-content;
+    }
+
+    .save-button {
+        bottom: 5px;
+        width: 100%;
+    }
+}

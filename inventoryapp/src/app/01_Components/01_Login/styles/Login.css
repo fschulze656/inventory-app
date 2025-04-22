@@ -1,0 +1,29 @@
+.login-container {
+    margin: 10px;
+    padding: 5px;
+    width: 30vw;
+    justify-self: center;
+}
+
+.login-title {
+    width: 100%;
+    font-size: clamp(2rem, 10vw, 2.15rem);
+    text-align: center;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 10px;
+}
+
+.forgot-password {
+    align-self: center;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        width: 100%;
+    }
+}

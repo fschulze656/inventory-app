@@ -1,0 +1,9 @@
+/inventoryapp/node_modules
+/inventoryapp/dist
+
+/backend/node_modules/
+
+rs_keyfile
+*.cert
+*.key
+.idea

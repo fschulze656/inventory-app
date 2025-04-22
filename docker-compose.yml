@@ -1,0 +1,90 @@
+version: "3.8"
+
+services:
+  mongo1:
+    container_name: mongo1
+    image: mongo:7.0
+    command: ["--replSet", "rs0", "--bind_ip_all", "--port", "27017", "--keyFile", "/etc/mongodb/pki/keyfile"]
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      mongo-cluster:
+        ipv4_address: 111.222.32.2
+    volumes:
+      - ${PWD}/rs_keyfile:/etc/mongodb/pki/keyfile
+      - "mongo1_data:/data/db"
+      - "mongo1_config:/data/configdb"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+
+
+  mongo2:
+    image: mongo:7.0
+    container_name: mongo2
+    command: ["--replSet", "rs0" ,"--bind_ip_all", "--port", "27018","--keyFile", "/etc/mongodb/pki/keyfile"]
+    restart: unless-stopped
+    ports:
+      - 27018:27018
+    networks:
+      mongo-cluster:
+        ipv4_address: 111.222.32.3
+    volumes:
+      - ${PWD}/rs_keyfile:/etc/mongodb/pki/keyfile
+      - "mongo2_data:/data/db"
+      - "mongo2_config:/data/configdb"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+
+  mongoexpress:
+    # does not need any volumes
+
+    image: mongo-express:1.0.2
+    restart: unless-stopped
+    depends_on:
+      - mongo1
+      - mongo2
+    networks:
+      mongo-cluster:
+        ipv4_address: 111.222.32.5
+    environment:
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: "true"
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_SERVER: mongo1
+      ME_CONFIG_MONGODB_PORT: 27017
+      ME_CONFIG_OPTIONS_EDITORTHEME: seti
+      ME_CONFIG_REQUEST_SIZE: 20mb
+    ports:
+      - "8087:8081"
+
+  inventory:
+    image: inventory:latest
+    restart: unless-stopped
+    depends_on:
+      - mongo1
+      - mongo2
+    networks:
+      mongo-cluster:
+        ipv4_address: 111.222.32.6
+    environment:
+      REFRESH_SECRET_KEY: 'lBHOoEbfthbxZIvVdX2fJyMZTOgNCmHxfNpHnovZkxWKqOtMQprhETe65PZDFOjp'
+      SECRET_KEY: 'lBHOoEbfthbxZIvVdX2fJyMZTOgNCmHxfNpHnovZkxWKqOtMQprhETe65PZDFOjp'
+      MONGO_URL: 'mongodb://root:example@mongo1:27017,mongo2:27018/?replicaSet=rs0&authSource=admin'
+      NODE_ENV: 'production'
+    ports:
+      - "80:80"
+volumes:
+  mongo1_data:
+  mongo2_data:
+  mongo1_config:
+  mongo2_config:
+
+networks:
+  mongo-cluster:
+    ipam:
+      config:
+        - subnet: 111.222.32.0/24
